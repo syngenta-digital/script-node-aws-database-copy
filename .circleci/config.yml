@@ -1,0 +1,26 @@
+version: 2.1
+orbs:
+    sonarcloud: sonarsource/sonarcloud@1.0.2
+workflows:
+    install-build-test:
+        jobs:
+            - install-build-test:
+                context:
+                    - shared-sonarcloud-token
+                filters:
+                    tags:
+                        ignore: /.*/
+                    branches:
+                        ignore: /dependabot.*/
+jobs:
+    install-build-test:
+        docker:
+            - image: node:14
+        steps:
+            - checkout
+            - node-install
+            - sonarcloud/scan
+commands:
+    node-install:
+        steps:
+            - run: npm ci
