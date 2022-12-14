@@ -8,17 +8,26 @@
         "url": "https://github.com/syngenta-digital/script-node-aws-database-copy/issues"
     },
     "scripts": {
-        "serverless": "serverless"
+        "serverless": "serverless",
+        "lint": "eslint --ext .js script/",
+        "test": "UNIT_TEST=true nyc mocha './test/**/*.unit.test.js' --recursive --timeout 30000",
+        "report": "UNIT_TEST=true nyc report --reporter=lcov"
     },
     "dependencies": {
         "copy-dynamodb-table": "*"
     },
     "devDependencies": {
+        "chai": "^4.3.4",
         "eslint": "7.22.0",
         "eslint-config-prettier": "8.1.0",
         "eslint-plugin-import": "2.22.1",
         "eslint-plugin-node": "11.1.0",
         "eslint-plugin-prettier": "3.3.1",
+        "mocha": "8.3.2",
+        "mocha-junit-reporter": "2.0.0",
+        "mocha-multi-reporters": "1.5.1",
+        "mochawesome": "6.2.2",
+        "nyc": "^15.1.0",
         "prettier": "2.2.1",
         "serverless": "2.72.0",
         "serverless-deployment-bucket": "1.4.0",
