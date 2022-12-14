@@ -1,0 +1,45 @@
+service: database-copy
+package:
+    exclude:
+        - .*
+        - .**/**
+        - aws/**
+        - test/**
+        - README.md
+        - serverless.yml
+        - package.json
+        - package-lock.json
+        - sonar-project.properties
+provider:
+    name: aws
+    runtime: nodejs14.x
+    versionFunctions: false
+    endpointType: regional
+    profile: ${opt:profile, 'local'}
+    stage: ${opt:stage, 'local'}
+    region: ${opt:region, 'us-east-2'}
+    stackName: ${self:provider.stackTags.name}
+    apiName: ${self:provider.stackTags.name}
+    deploymentPrefix: ${self:provider.stackTags.name}
+    deploymentBucket:
+        name: ${self:provider.stage}-${self:provider.region}-aws-database-copy
+    stackTags:
+        name: ${self:provider.stage}-${self:service}
+        service: ${self:service}
+        environment: ${self:provider.stage}
+        managed-by: serverless
+    iam:
+        role:
+            statements:
+                - ${file(./aws/iamroles/dynamodb.yml)}
+functions:
+    v1-console-database-copy:
+        name: ${self:provider.stackTags.name}-v1-console-database-copy
+        description: copies database from one to the other
+        handler: script/database.copy
+        memorySize: 3008
+        timeout: 900
+plugins:
+    - serverless-plugin-bind-deployment-id
+    - serverless-plugin-log-retention
+    - serverless-deployment-bucket

@@ -1,0 +1,75 @@
+{
+    "name": "script-node-aws-database-copy",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/syngenta-digital/script-node-aws-database-copy.git"
+    },
+    "bugs": {
+        "url": "https://github.com/syngenta-digital/script-node-aws-database-copy/issues"
+    },
+    "scripts": {
+        "serverless": "serverless"
+    },
+    "dependencies": {
+        "copy-dynamodb-table": "*"
+    },
+    "devDependencies": {
+        "eslint": "7.22.0",
+        "eslint-config-prettier": "8.1.0",
+        "eslint-plugin-import": "2.22.1",
+        "eslint-plugin-node": "11.1.0",
+        "eslint-plugin-prettier": "3.3.1",
+        "prettier": "2.2.1",
+        "serverless": "2.72.0",
+        "serverless-deployment-bucket": "1.4.0",
+        "serverless-plugin-bind-deployment-id": "2.0.2",
+        "serverless-plugin-log-retention": "2.0.0"
+    },
+    "engines": {
+        "node": ">=14.15.4"
+    },
+    "nyc": {
+        "temp-directory": "./node_modules/.test-metadata/.nyc_output"
+    },
+    "eslintConfig": {
+        "env": {
+            "es6": true
+        },
+        "parserOptions": {
+            "ecmaVersion": 2020
+        },
+        "plugins": [
+            "prettier"
+        ],
+        "extends": [
+            "plugin:prettier/recommended"
+        ],
+        "rules": {
+            "prettier/prettier": [
+                "warn",
+                {
+                    "trailingComma": "none",
+                    "printWidth": 120,
+                    "tabWidth": 4,
+                    "singleQuote": true,
+                    "bracketSpacing": false,
+                    "arrowParens": "always"
+                }
+            ],
+            "eqeqeq": "error",
+            "no-console": 0,
+            "guard-for-in": 0,
+            "no-await-in-loop": 0,
+            "no-restricted-syntax": 0,
+            "no-underscore-dangle": 0,
+            "camelcase": 0,
+            "global-require": 0,
+            "no-throw-literal": 0,
+            "no-param-reassign": 0,
+            "class-methods-use-this": 0,
+            "no-use-before-define": 0,
+            "no-plusplus": 0,
+            "no-undef": 0
+        }
+    }
+}
