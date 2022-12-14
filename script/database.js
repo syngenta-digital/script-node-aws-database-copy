@@ -11,7 +11,7 @@ const copyDDB = (params) => {
     });
 };
 
-const copy = async (event) => {
+exports.copy = async (event) => {
     console.log(`\n===== copying ${event.source} -> ${event.destination} =====\n`);
     const engines = ['dynamodb'];
     if (!engines.includes(event.engine)) {
