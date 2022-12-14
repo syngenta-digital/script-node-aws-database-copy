@@ -1,0 +1,51 @@
+version: 2.1
+orbs:
+    sonarcloud: sonarsource/sonarcloud@1.0.2
+workflows:
+    install-build-test:
+        jobs:
+            - install-build-test:
+                context:
+                    - shared-sonarcloud-token
+                filters:
+                    tags:
+                        ignore: /.*/
+                    branches:
+                        ignore: /dependabot.*/
+jobs:
+    install-build-test:
+        docker:
+            - image: node:14
+        steps:
+            - checkout
+            - node-install
+            - node-lint
+            - node-test
+            - node-report
+            - sonarcloud/scan
+commands:
+    node-install:
+        steps:
+            - run: npm ci
+    node-lint:
+        steps:
+            - run: npm run lint -- --format html --output-file ./coverage/lint/index.html
+            - store_artifacts:
+                path: ./coverage
+    node-test:
+        steps:
+            - run:
+                when: always
+                command: npm run test -- --reporter mocha-multi-reporters --reporter-options configFile=./test/config/reporter-config.json
+                environment:
+                    MOCHAWESOME_REPORTFILENAME: index.html
+                    MOCHAWESOME_REPORTDIR: ./coverage/unit-test
+            - store_test_results:
+                path: ./coverage/unit-test
+            - store_artifacts:
+                path: ./coverage
+    node-report:
+        steps:
+            - run: npm run report
+            - store_artifacts:
+                path: ./coverage

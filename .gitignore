@@ -102,3 +102,21 @@ dist
 
 # TernJS port file
 .tern-port
+
+# IDE
+.vscode/
+
+# S3 Buckets
+.s3_buckets
+
+# SES Local
+.ses
+.localstack
+
+# NEO4J Local
+.neo4j
+
+#epsaggon
+epsagon_handlers
+
+.DS_Store

@@ -1,0 +1,7 @@
+Effect: Allow
+Action:
+    - dynamodb:*
+Resource:
+    - arn:aws:dynamodb:*:*:table/*
+    - arn:aws:dynamodb:*:*:table/*/index/*
+    - arn:aws:dynamodb:*:*:table/*/stream/*
