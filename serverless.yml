@@ -32,12 +32,19 @@ provider:
         role:
             statements:
                 - ${file(./aws/iamroles/dynamodb.yml)}
+                - ${file(./aws/iamroles/lambda.yml)}
 functions:
-    v1-console-database-copy:
-        name: ${self:provider.stackTags.name}-v1-console-database-copy
-        description: copies database from one to the other
-        handler: script/database.copy
-        memorySize: 3008
+    v1-console-database-copy-db:
+        name: v1-console-database-copy-db
+        description: copies single database from one to another
+        handler: script/database.copyDatabase
+        memorySize: 10240
+        timeout: 900
+    v1-console-database-copy-stack:
+        name: v1-console-database-copy-stack
+        description: copies all database from one stack to another
+        handler: script/database.copyStack
+        memorySize: 256
         timeout: 900
 plugins:
     - serverless-plugin-bind-deployment-id

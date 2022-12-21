@@ -1,17 +1,15 @@
+const AWS = require('aws-sdk');
 const copyDDBTable = require('copy-dynamodb-table').copy;
 
 const copyDDB = (params) => {
     return new Promise((resolve, reject) => {
         copyDDBTable(params, function (err, result) {
-            if (err) {
-                return reject(err);
-            }
             resolve(result);
         });
     });
 };
 
-exports.copy = async (event) => {
+exports.copyTable = async (event) => {
     console.log(`\n===== copying ${event.source} -> ${event.destination} =====\n`);
     const engines = ['dynamodb'];
     if (!engines.includes(event.engine)) {
@@ -33,5 +31,25 @@ exports.copy = async (event) => {
             },
             log: true
         });
+    }
+};
+
+exports.copyStack = async (event) => {
+    console.log(`\n===== copying stack matching ${event.source_pattern} =====\n`);
+    const regex = new RegExp(event.source_pattern);
+    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+    const ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+    const tables = await ddb.listTables().promise();
+    for (const tableName of tables.TableNames) {
+        if (regex.test(tableName)) {
+            const destination = tableName.replace(event.source_pattern, event.destination_prefix);
+            console.log(`Invoking Lambda to Copy: ${tableName} -> ${destination}`);
+            const params = {
+                FunctionName: 'v1-console-database-copy-db',
+                InvocationType: 'Event',
+                Payload: `{"engine": "dynamodb", "source": "${tableName}", "destination": "${destination}"}`
+            };
+            await lambda.invoke(params).promise();
+        }
     }
 };

@@ -1,0 +1,5 @@
+Effect: Allow
+Action:
+    - lambda:*
+Resource:
+    - arn:aws:lambda:*
