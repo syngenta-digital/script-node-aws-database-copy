@@ -47,7 +47,7 @@ exports.copyStack = async (event) => {
             const params = {
                 FunctionName: 'v1-console-database-copy-db',
                 InvocationType: 'Event',
-                Payload: JSON.stringify({engine: event.engine, source: tableName, destination: destination})
+                Payload: {engine: event.engine, source: tableName, destination: destination}
             };
             await lambda.invoke(params).promise();
         }
