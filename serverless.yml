@@ -22,7 +22,7 @@ provider:
     apiName: ${self:provider.stackTags.name}
     deploymentPrefix: ${self:provider.stackTags.name}
     deploymentBucket:
-        name: ${opt:deployment, ${self:provider.stage}-${self:provider.region}-aws-database-copy}
+        name: ${opt:deployment, 'please pass --deployment option'}
     stackTags:
         name: ${self:provider.stage}-${self:service}
         service: ${self:service}
