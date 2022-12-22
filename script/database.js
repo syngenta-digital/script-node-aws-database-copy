@@ -49,7 +49,7 @@ exports.copyStack = async (event) => {
                 InvocationType: 'Event',
                 LogType: 'Tail',
                 Payload: new Buffer(
-                    JSON.stringify({engine: event.engine, source: tableName, destination: destination}),
+                    JSON.stringify({engine: 'dynamodb', source: tableName, destination: destination}),
                     'utf-8'
                 )
             };
