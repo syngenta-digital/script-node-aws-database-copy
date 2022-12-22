@@ -37,8 +37,8 @@ exports.copyTable = async (event) => {
 exports.copyStack = async (event) => {
     console.log(`\n===== copying stack matching ${event.source_pattern} =====\n`);
     const regex = new RegExp(event.source_pattern);
-    const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
-    const ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+    const lambda = new AWS.Lambda();
+    const ddb = new AWS.DynamoDB();
     const tables = await ddb.listTables().promise();
     for (const tableName of tables.TableNames) {
         if (regex.test(tableName)) {
@@ -47,7 +47,10 @@ exports.copyStack = async (event) => {
             const params = {
                 FunctionName: 'v1-console-database-copy-db',
                 InvocationType: 'Event',
-                Payload: JSON.stringify({engine: event.engine, source: tableName, destination: destination})
+                Payload: new Buffer(
+                    JSON.stringify({engine: event.engine, source: tableName, destination: destination}),
+                    'utf-8'
+                )
             };
             await lambda.invoke(params).promise();
         }
