@@ -47,6 +47,7 @@ exports.copyStack = async (event) => {
             const params = {
                 FunctionName: 'v1-console-database-copy-db',
                 InvocationType: 'Event',
+                LogType: 'Tail',
                 Payload: new Buffer(
                     JSON.stringify({engine: event.engine, source: tableName, destination: destination}),
                     'utf-8'
