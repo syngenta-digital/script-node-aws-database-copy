@@ -29,7 +29,7 @@
         "mochawesome": "6.2.2",
         "nyc": "^15.1.0",
         "prettier": "2.2.1",
-        "serverless": "2.72.0",
+        "serverless": "3.27.0",
         "serverless-deployment-bucket": "1.4.0",
         "serverless-plugin-bind-deployment-id": "2.0.2",
         "serverless-plugin-log-retention": "2.0.0"
